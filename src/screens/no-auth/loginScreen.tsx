@@ -6,21 +6,35 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-
+import {useNavigation} from '@react-navigation/native';
+import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../navigation/types';
+import {SafeAreaView} from 'react-native-safe-area-context';
 export default function LoginScreen() {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const handleLogin = () => {
+    navigation.replace('BottomTabs');
+  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login to Protibeshi</Text>
-      <TextInput
-        placeholder="Email"
-        style={styles.input}
-        keyboardType="email-address"
-      />
-      <TextInput placeholder="Password" style={styles.input} secureTextEntry />
-      <TouchableOpacity style={styles.button} onPress={() => {}}>
-        <Text style={styles.buttonText}>Log In</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={{flex: 1, padding: 16}}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Login to Protibeshi</Text>
+        <TextInput
+          placeholder="Email"
+          style={styles.input}
+          keyboardType="email-address"
+        />
+        <TextInput
+          placeholder="Password"
+          style={styles.input}
+          secureTextEntry
+        />
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Log In</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 

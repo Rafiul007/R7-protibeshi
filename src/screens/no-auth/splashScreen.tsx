@@ -2,24 +2,27 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function SplashScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Protibeshi</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, styles.secondary]}
-        onPress={() => navigation.navigate('Signup')}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={{flex: 1, padding: 16}}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Protibeshi</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.secondary]}
+          onPress={() => navigation.navigate('Signup')}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 
