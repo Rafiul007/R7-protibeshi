@@ -1,13 +1,15 @@
-import {Text} from 'react-native';
+import {View, Text} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-const homeScreen = () => {
+const billScreen = () => {
   return (
     <SafeAreaView style={{flex: 1, padding: 16}}>
-      <Text>homeScreen</Text>
+      <View>
+        <Text>billScreen</Text>
+      </View>
     </SafeAreaView>
   );
 };
 
-export default homeScreen;
+export default billScreen;
