@@ -9,6 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {GestureDetector, Gesture} from 'react-native-gesture-handler';
 import ProfileCard from '../../components/Molucules/ProfileCard';
+import MyCarousel from '../../components/test/test';
 
 const HomeScreen = () => {
   const opacity = useSharedValue(0);
@@ -66,6 +67,7 @@ const HomeScreen = () => {
           <Animated.View style={[styles.box, animatedBoxStyle]} />
         </GestureDetector>
       </View>
+      <MyCarousel />
     </SafeAreaView>
   );
 };
