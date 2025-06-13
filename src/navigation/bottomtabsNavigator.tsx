@@ -1,9 +1,9 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/auth/homeScreen';
 import ProfileScreen from '../screens/auth/profileScreen';
-import BillScreen from '../screens/auth/billScreen';
 import VIcon from '../components/atoms/Icon';
+import MyBillScreen from '../screens/auth/myBillScreen';
+import HomeStackNavigator from './homeStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +14,7 @@ const getTabBarIcon = (routeName: string) => {
     case 'Home':
       iconName = 'home-outline';
       break;
-    case 'Bills':
+    case 'My Bills':
       iconName = 'receipt-outline';
       break;
     case 'Profile':
@@ -37,9 +37,10 @@ export default function BottomTabsNavigator() {
         headerShown: false,
         tabBarActiveTintColor: '#2a9d8f',
         tabBarInactiveTintColor: 'gray',
+        tabBarLabelStyle: {fontSize: 10, fontWeight: 'bold'},
       })}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Bills" component={BillScreen} />
+      <Tab.Screen name="Home" component={HomeStackNavigator} />
+      <Tab.Screen name="My Bills" component={MyBillScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
