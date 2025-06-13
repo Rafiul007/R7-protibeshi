@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-export const BillScreen = () => {
+export const MyBillScreen = () => {
   const opacity = useSharedValue(1);
   const scale = useSharedValue(1);
   const [a, setA] = useState(false);
@@ -44,4 +44,4 @@ export const BillScreen = () => {
   );
 };
 
-export default BillScreen;
+export default MyBillScreen;
