@@ -30,8 +30,8 @@ const ProfileCard: FC<ProfileCardProps> = ({
 
   useEffect(() => {
     opacity.value = withTiming(1, {duration: 500});
-    translateY.value = withTiming(0, {duration: 500});
-    scale.value = withTiming(1, {duration: 500});
+    translateY.value = withTiming(0, {duration: 1000});
+    scale.value = withTiming(1, {duration: 1000});
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => {
