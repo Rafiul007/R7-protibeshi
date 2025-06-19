@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, View, Pressable, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Animated, {
   useSharedValue,
@@ -7,6 +7,7 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
+import {useTheme} from 'react-native-paper';
 
 interface MenuTileItemProps {
   label: string;
@@ -16,7 +17,7 @@ interface MenuTileItemProps {
   width: number;
 }
 
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+const AnimatedView = Animated.createAnimatedComponent(View);
 
 const MenuTileItem: React.FC<MenuTileItemProps> = ({
   label,
@@ -25,6 +26,9 @@ const MenuTileItem: React.FC<MenuTileItemProps> = ({
   index,
   width,
 }) => {
+  const {colors} = useTheme();
+  const circleSize = 60;
+
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(20);
 
@@ -33,11 +37,11 @@ const MenuTileItem: React.FC<MenuTileItemProps> = ({
 
     const timeout = setTimeout(() => {
       opacity.value = withTiming(1, {
-        duration: 1000,
+        duration: 800,
         easing: Easing.out(Easing.exp),
       });
       translateY.value = withTiming(0, {
-        duration: 1000,
+        duration: 800,
         easing: Easing.out(Easing.exp),
       });
     }, delay);
@@ -52,29 +56,51 @@ const MenuTileItem: React.FC<MenuTileItemProps> = ({
   }));
 
   return (
-    <AnimatedTouchable
-      style={[styles.tile, {width}, animatedStyle]}
-      onPress={onPress}>
-      <Icon name={icon} size={32} color="#444" />
-      <Text style={styles.label}>{label}</Text>
-    </AnimatedTouchable>
+    <Pressable onPress={onPress} style={[styles.wrapper, {width}]}>
+      <AnimatedView
+        style={[
+          styles.tile,
+          {
+            width: circleSize,
+            height: circleSize,
+            borderRadius: circleSize / 2,
+            backgroundColor: colors.primaryContainer,
+            borderColor: colors.outlineVariant,
+            shadowColor: colors.shadow,
+            ...Platform.select({
+              ios: {
+                shadowOpacity: 0.3,
+                shadowOffset: {width: 0, height: 4},
+                shadowRadius: 6,
+              },
+              android: {
+                elevation: 6,
+              },
+            }),
+          },
+          animatedStyle,
+        ]}>
+        <Icon name={icon} size={28} color={colors.surface} />
+      </AnimatedView>
+      <Text style={[styles.label, {color: colors.onSurface}]}>{label}</Text>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    alignItems: 'center',
+  },
   tile: {
-    aspectRatio: 1,
-    margin: 5,
-    borderRadius: 10,
-    backgroundColor: '#f1f1f1',
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 2,
+    borderWidth: 1,
   },
   label: {
-    marginTop: 8,
-    fontSize: 12,
-    color: '#333',
+    marginTop: 6,
+    fontSize: 13,
+    fontWeight: '500',
+    textAlign: 'center',
   },
 });
 
