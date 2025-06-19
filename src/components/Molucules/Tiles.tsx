@@ -1,5 +1,5 @@
-import React from 'react';
-import {FlatList, StyleSheet, Dimensions} from 'react-native';
+import React, {FC, useCallback} from 'react';
+import {FlatList, Dimensions, StyleSheet} from 'react-native';
 import MenuTileItem from './tile-item';
 
 interface MenuItem {
@@ -14,31 +14,45 @@ interface MenuTileGridProps {
   columns?: number;
 }
 
-const MenuTileGrid: React.FC<MenuTileGridProps> = ({data, columns = 3}) => {
-  const tileSize = Dimensions.get('window').width / columns - 20;
+const MenuTileGrid: FC<MenuTileGridProps> = ({data, columns = 3}) => {
+  const tileSpacing = 16;
+  const screenWidth = Dimensions.get('window').width;
+  const tileSize = (screenWidth - tileSpacing * (columns + 4)) / columns;
+
+  const renderMenuTileItem = useCallback(
+    ({item, index}: {item: MenuItem; index: number}) => (
+      <MenuTileItem
+        label={item.label}
+        icon={item.icon}
+        onPress={item.onPress}
+        index={index}
+        width={tileSize}
+      />
+    ),
+    [tileSize],
+  );
 
   return (
     <FlatList
       data={data}
       numColumns={columns}
       keyExtractor={item => item.id}
-      contentContainerStyle={styles.container}
-      renderItem={({item, index}) => (
-        <MenuTileItem
-          label={item.label}
-          icon={item.icon}
-          onPress={item.onPress}
-          index={index}
-          width={tileSize}
-        />
-      )}
+      renderItem={renderMenuTileItem}
+      columnWrapperStyle={styles.columnWrapper}
+      contentContainerStyle={[styles.container]}
     />
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 16,
+    marginVertical: 6,
+    borderRadius: 12,
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
+    marginBottom: 8,
   },
 });
 

@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {menuData as staticMenuData} from '../../../constants/app';
 import ProfileCard from '../../../components/Molucules/ProfileCard';
 import MenuTileGrid from '../../../components/Molucules/Tiles';
+import ThemeToggleButton from '../../../components/atoms/ThemeToggleButton';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -50,6 +51,7 @@ const HomeScreen = () => {
         role="Owner"
       />
       <MenuTileGrid data={menuData} columns={4} />
+      <ThemeToggleButton />
     </SafeAreaView>
   );
 };
