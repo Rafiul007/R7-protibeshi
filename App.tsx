@@ -1,15 +1,16 @@
-import React, {Component} from 'react';
-import { SafeAreaProvider} from 'react-native-safe-area-context';
+import React from 'react';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Provider as PaperProvider} from 'react-native-paper';
 import RootNavigator from './src/navigation/RootNavigator';
 
-export class App extends Component {
-  render() {
-    return (
+const App = () => {
+  return (
+    <PaperProvider>
       <SafeAreaProvider>
         <RootNavigator />
       </SafeAreaProvider>
-    );
-  }
-}
+    </PaperProvider>
+  );
+};
 
 export default App;
