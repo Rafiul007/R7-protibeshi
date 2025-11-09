@@ -1,13 +1,13 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
-import {Text, StyleSheet, View, Pressable, Platform} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StyleSheet, Platform, View} from 'react-native';
+import {Text, Badge, TouchableRipple, useTheme, Icon} from 'react-native-paper';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import {useTheme} from 'react-native-paper';
 
 interface MenuTileItemProps {
   label: string;
@@ -15,40 +15,38 @@ interface MenuTileItemProps {
   onPress?: () => void;
   index: number;
   width: number;
+  notificationCount?: number;
 }
 
-const AnimatedView = Animated.createAnimatedComponent(View);
+const AnimatedCard = Animated.createAnimatedComponent(View);
 
-const MenuTileItem: React.FC<MenuTileItemProps> = ({
+export const MenuTileItem: React.FC<MenuTileItemProps> = ({
   label,
   icon,
   onPress,
   index,
   width,
+  notificationCount = 0,
 }) => {
   const {colors} = useTheme();
-  const circleSize = 60;
 
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(20);
 
   useEffect(() => {
-    const delay = index * 160;
-
+    const delay = index * 150;
     const timeout = setTimeout(() => {
       opacity.value = withTiming(1, {
-        duration: 800,
+        duration: 700,
         easing: Easing.out(Easing.exp),
       });
       translateY.value = withTiming(0, {
-        duration: 800,
+        duration: 700,
         easing: Easing.out(Easing.exp),
       });
     }, delay);
-
     return () => clearTimeout(timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [index, opacity, translateY]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -56,51 +54,77 @@ const MenuTileItem: React.FC<MenuTileItemProps> = ({
   }));
 
   return (
-    <Pressable onPress={onPress} style={[styles.wrapper, {width}]}>
-      <AnimatedView
-        style={[
-          styles.tile,
-          {
-            width: circleSize,
-            height: circleSize,
-            borderRadius: circleSize / 2,
-            backgroundColor: colors.primaryContainer,
-            borderColor: colors.outlineVariant,
-            shadowColor: colors.shadow,
-            ...Platform.select({
-              ios: {
-                shadowOpacity: 0.3,
-                shadowOffset: {width: 0, height: 4},
-                shadowRadius: 6,
-              },
-              android: {
-                elevation: 6,
-              },
-            }),
-          },
-          animatedStyle,
-        ]}>
-        <Icon name={icon} size={28} color={colors.surface} />
-      </AnimatedView>
-      <Text style={[styles.label, {color: colors.onSurface}]}>{label}</Text>
-    </Pressable>
+    <View
+      style={{
+        width,
+        height: 120,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.surface,
+        borderRadius: 12,
+        borderWidth: 0.5,
+        borderColor: colors.primary,
+      }}>
+      <TouchableRipple
+        onPress={onPress}
+        rippleColor={colors.primary + '20'}
+        style={{flex: 1, width: '100%', alignItems: 'center'}}>
+        <View
+          style={{
+            flex: 1,
+            width: '100%',
+            alignItems: 'center',
+            paddingVertical: 8,
+          }}>
+          <AnimatedCard
+            style={[
+              styles.iconBox,
+              animatedStyle,
+              Platform.select({
+                ios: {
+                  shadowOpacity: 0.15,
+                  shadowOffset: {width: 0, height: 4},
+                  shadowRadius: 6,
+                },
+                android: {elevation: 0},
+              }),
+            ]}>
+            <Icon source={icon} size={34} color={colors.primary} />
+            {notificationCount > 0 && (
+              <Badge style={styles.badge}>{notificationCount}</Badge>
+            )}
+          </AnimatedCard>
+
+          <Text
+            style={[styles.label, {color: colors.onSurface}]}
+            numberOfLines={1}>
+            {label}
+          </Text>
+        </View>
+      </TouchableRipple>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    alignItems: 'center',
-  },
-  tile: {
+  iconBox: {
+    width: 70,
+    height: 70,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
+    position: 'relative',
   },
   label: {
     marginTop: 6,
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: '700',
     textAlign: 'center',
+  },
+  badge: {
+    position: 'absolute',
+    top: -3,
+    right: -6,
+    backgroundColor: '#b71c1c',
   },
 });
 

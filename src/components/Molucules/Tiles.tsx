@@ -7,6 +7,7 @@ interface MenuItem {
   label: string;
   icon: string;
   onPress?: () => void;
+  notificationCount?: number; // ✅ support badge
 }
 
 interface MenuTileGridProps {
@@ -14,10 +15,11 @@ interface MenuTileGridProps {
   columns?: number;
 }
 
-const MenuTileGrid: FC<MenuTileGridProps> = ({data, columns = 3}) => {
-  const tileSpacing = 16;
+const MenuTileGrid: FC<MenuTileGridProps> = ({data, columns = 2}) => {
+  const spacing = 16;
   const screenWidth = Dimensions.get('window').width;
-  const tileSize = (screenWidth - tileSpacing * (columns + 4)) / columns;
+
+  const tileWidth = (screenWidth - spacing * (columns + 1)) / columns;
 
   const renderMenuTileItem = useCallback(
     ({item, index}: {item: MenuItem; index: number}) => (
@@ -26,10 +28,11 @@ const MenuTileGrid: FC<MenuTileGridProps> = ({data, columns = 3}) => {
         icon={item.icon}
         onPress={item.onPress}
         index={index}
-        width={tileSize}
+        width={tileWidth}
+        notificationCount={item.notificationCount}
       />
     ),
-    [tileSize],
+    [tileWidth],
   );
 
   return (
@@ -39,20 +42,19 @@ const MenuTileGrid: FC<MenuTileGridProps> = ({data, columns = 3}) => {
       keyExtractor={item => item.id}
       renderItem={renderMenuTileItem}
       columnWrapperStyle={styles.columnWrapper}
-      contentContainerStyle={[styles.container]}
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
     />
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    marginVertical: 6,
-    borderRadius: 12,
+    paddingHorizontal: 4,
+    paddingVertical: 0,
   },
   columnWrapper: {
     justifyContent: 'space-between',
-    marginBottom: 8,
   },
 });
 

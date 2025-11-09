@@ -1,8 +1,8 @@
 export const menuData = [
   {
     id: '1',
-    label: 'Tenant',
-    icon: 'account-plus',
+    label: 'My Apartment',
+    icon: 'home-outline',
   },
   {
     id: '2',
@@ -13,10 +13,5 @@ export const menuData = [
     id: '3',
     label: 'Rent',
     icon: 'cash-multiple',
-  },
-  {
-    id: '4',
-    label: 'Payment',
-    icon: 'cash',
   },
 ];
