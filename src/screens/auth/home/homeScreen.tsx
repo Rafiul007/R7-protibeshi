@@ -1,14 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Text} from 'react-native-paper';
 
 import {menuData as staticMenuData} from '../../../constants/app';
 import ProfileCard from '../../../components/Molucules/ProfileCard';
 import MenuTileGrid from '../../../components/Molucules/Tiles';
 import RecentActivityCard from '../../../components/Molucules/recent-activity-card';
+import ServiceList from '../../../components/organisms/services';
+import {servicesData} from '../../../constants/service';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -44,7 +45,13 @@ const HomeScreen = () => {
   });
 
   return (
-    <SafeAreaView style={{padding: 16, flex: 1}}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{paddingBottom: 16}}
+      style={{
+        flexGrow: 1,
+        paddingHorizontal: 16,
+      }}>
       <ProfileCard
         fullName="John Doe"
         houseNumber="NST Tower"
@@ -68,7 +75,16 @@ const HomeScreen = () => {
           description="You have two new notices."
         />
       </View>
-    </SafeAreaView>
+
+      {/* Services */}
+      <View style={styles.section}>
+        <Text style={styles.heading}>Your Services</Text>
+        <ServiceList
+          data={servicesData}
+          onItemPress={screen => screen && navigation.navigate(screen as never)}
+        />
+      </View>
+    </ScrollView>
   );
 };
 

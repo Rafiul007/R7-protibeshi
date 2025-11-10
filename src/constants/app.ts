@@ -2,16 +2,16 @@ export const menuData = [
   {
     id: '1',
     label: 'My Apartment',
-    icon: 'home-outline',
+    icon: 'office-building-outline',
   },
   {
     id: '2',
     label: 'Bills',
-    icon: 'account-cash',
+    icon: 'currency-bdt',
   },
   {
     id: '3',
     label: 'Rent',
-    icon: 'cash-multiple',
+    icon: 'account-cash-outline',
   },
 ];
